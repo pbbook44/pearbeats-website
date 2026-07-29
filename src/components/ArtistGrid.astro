@@ -1,0 +1,24 @@
+---
+import type { Artist } from '../data/loadArtists';
+import ArtistCard from './ArtistCard.astro';
+
+interface Props {
+  artists: Artist[];
+  texts: any;
+  lang: 'de' | 'en';
+}
+
+const { artists, texts, lang } = Astro.props;
+---
+
+<section id="artists">
+  <div class="container">
+    <span class="section-label" data-lang="artists.label">{texts.artists.label}</span>
+    <h2 class="section-title" data-lang="artists.title">{texts.artists.title}</h2>
+    <p class="section-subtitle" data-lang="artists.subtitle">{texts.artists.subtitle}</p>
+
+    <div class="grid-3 artists-grid">
+      {artists.map(artist => <ArtistCard artist={artist} texts={texts} lang={lang} />)}
+    </div>
+  </div>
+</section>

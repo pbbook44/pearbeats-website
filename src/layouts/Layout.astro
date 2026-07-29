@@ -1,0 +1,110 @@
+---
+interface Props {
+  title: string;
+  lang: string;
+}
+
+const { title, lang = 'de' } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang={lang}>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{title}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <slot />
+
+  <!-- Booking Modal -->
+  <div id="bookingModal" class="modal hidden">
+    <div class="modal-content">
+      <span class="close-btn" onclick="closeBookingModal()">×</span>
+      <h2 data-lang="modal.title">Booking angefragt</h2>
+      <p id="modalArtistName" style="margin: 16px 0; font-size: 1.1rem;"></p>
+      <div id="modalButtons" style="display: flex; gap: 12px; margin-top: 20px;">
+        <a id="btnEpk" href="#" target="_blank" class="btn btn-primary" data-lang="modal.btnEpk">EPK ansehen</a>
+        <a id="btnBandcamp" href="#" target="_blank" class="btn btn-outline" data-lang="modal.btnBandcamp">Auf Bandcamp</a>
+      </div>
+      <p style="margin-top: 20px; font-size: 0.9rem; color: var(--gray);" data-lang="modal.emailNote">Deine Mail-App öffnet sich...</p>
+    </div>
+  </div>
+
+  <script>
+    // In src/layouts/Layout.astro (im Script-Teil)
+    const langToggle = document.getElementById('langToggle');
+    const currentLang = document.documentElement.lang;
+
+    if (langToggle) {
+      langToggle.addEventListener('click', () => {
+    // / ↔ /en/ statt /de/ ↔ /en/
+        if (currentLang === 'en') {
+          window.location.href = '/';
+        } else {
+          window.location.href = '/en/';
+        }
+      });
+    }
+
+    // Booking Modal Functions
+    let currentArtistData = null;
+
+    window.openBookingModal = function(element) {
+      const template = element.querySelector('.modal-data');
+      if (!template) return;
+
+      try {
+        currentArtistData = JSON.parse(template.textContent);
+
+        document.getElementById('modalArtistName').textContent = currentArtistData.ensemble;
+        document.getElementById('btnEpk').href = currentArtistData.epk || '#';
+        document.getElementById('btnBandcamp').href = currentArtistData.bandcamp || '#';
+
+        // Show modal
+        document.getElementById('bookingModal').classList.remove('hidden');
+
+        // Form prefill
+        setTimeout(() => {
+          const subjectField = document.getElementById('formType');
+          const messageField = document.getElementById('message');
+
+          if (subjectField) subjectField.value = 'Festival Booking';
+          if (messageField) {
+            messageField.value = `Guten Tag,\n\nwir möchten gerne ${currentArtistData.ensemble} für unser Event buchen.\n\n` +
+              `Event-Datum: [bitte einfügen]\n` +
+              `Location: [bitte einfügen]\n` +
+              `Budgetrahmen: [bitte einfügen]\n\n` +
+              `Vielen Dank!\n\n` +
+              `${currentArtistData.description || ''}`;
+          }
+        }, 100);
+      } catch (e) {
+        console.error('Error parsing artist data:', e);
+      }
+    };
+
+    window.closeBookingModal = function() {
+      document.getElementById('bookingModal').classList.add('hidden');
+    };
+
+    // Close on outside click
+    document.getElementById('bookingModal').addEventListener('click', (e) => {
+      if (e.target.id === 'bookingModal') closeBookingModal();
+    });
+
+    // Smooth scroll
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
+  </script>
+</body>
+</html>

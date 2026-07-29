@@ -1,0 +1,27 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Navbar from '../components/Navbar.astro';
+import Hero from '../components/Hero.astro';
+import About from '../components/About.astro';
+import ArtistGrid from '../components/ArtistGrid.astro';
+import Services from '../components/Services.astro';
+import ForVenues from '../components/ForVenues.astro';
+import Contact from '../components/Contact.astro';
+import Footer from '../components/Footer.astro';
+import { loadArtists } from '../data/loadArtists';
+import { uiTexts } from '../data/ui-texts';
+
+const artists = await loadArtists();
+const texts = uiTexts.de;
+---
+
+<Layout title={`Pearbeats | ${texts.nav.home}`} lang="de">
+  <Navbar lang="de" texts={texts} />
+  <Hero texts={texts} lang="de" />
+  <About texts={texts} lang="de" />
+  <ArtistGrid artists={artists} texts={texts} lang="de" />
+  <Services texts={texts} lang="de" />
+  <ForVenues texts={texts} lang="de" />
+  <Contact texts={texts} lang="de" />
+  <Footer texts={texts} lang="de" />
+</Layout>

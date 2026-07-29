@@ -1,0 +1,31 @@
+---
+import { uiTexts } from '../data/ui-texts';
+const { texts, lang } = Astro.props;
+---
+
+<header class="hero">
+  <div class="hero-content">
+    <span class="hero-tag">{texts.hero.tagline}</span>
+    <h1>
+      {lang === 'de' 
+        ? <>Musik leben.<br /><em>Rhythmus buchen.</em></>
+        : <>Music alive.<br /><em>Book the rhythm.</em></>}
+    </h1>
+    <p>
+      {lang === 'de' 
+        ? 'Pearbeats vermittelt Jazz- und Contemporary-Künstler:innen an Festivals, Clubs und Kulturhäuser. Curated booking mit Herz und Verstand.'
+        : 'Pearbeats connects jazz and contemporary artists with festivals, clubs and cultural houses. Curated booking with heart and mind.'}
+    </p>
+    <div class="hero-buttons">
+      <a href="#contact" class="btn btn-primary">{texts.hero.btnPrimary}</a>
+      <a href="#artists" class="btn btn-outline">{texts.hero.btnOutline}</a>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <span>Scrollen</span>
+    <br />
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+      <path d="M12 5v14M5 12l7 7 7-7"/>
+    </svg>
+  </div>
+</header>

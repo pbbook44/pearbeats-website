@@ -1,0 +1,39 @@
+---
+import type { Artist } from '../data/loadArtists';
+import { uiTexts } from '../data/ui-texts';
+
+interface Props {
+  artist: Artist;
+  texts: typeof uiTexts.de;
+  lang: 'de' | 'en';
+}
+
+const { artist, texts, lang } = Astro.props;
+const description = lang === 'de' ? artist.description_de : artist.description_en;
+---
+
+<article class="artist-card" data-shortname={artist.shortname} onclick="openBookingModal(this)">
+  <div class="artist-img">
+    <svg viewBox="0 0 80 80">
+      <circle cx="40" cy="28" r="16"/>
+      <path d="M12 70c0-16 12-26 28-26s28 10 28 26"/>
+    </svg>
+    {artist.photo_url && <img src={artist.photo_url} alt={artist.ensemble} loading="lazy" />}
+    <span class="artist-genre">{artist.genre}</span>
+  </div>
+  <div class="artist-info">
+    <h3>{artist.ensemble}</h3>
+    <p>{description} · {artist.stadt || ''}</p>
+  </div>
+  
+  <template class="modal-data">
+    {JSON.stringify({
+      ensemble: artist.ensemble,
+      shortname: artist.shortname,
+      epk: artist.epk,
+      bandcamp: artist.bandcamp,
+      techrider: artist.techrider_intern,
+      description: description
+    })}
+  </template>
+</article>

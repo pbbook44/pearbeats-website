@@ -1,0 +1,52 @@
+---
+import { uiTexts } from '../data/ui-texts';
+const { texts } = Astro.props;
+---
+
+<section class="about" id="about">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-text">
+        <span class="section-label" data-lang="about.label">{texts.about.label}</span>
+        <h2 class="section-title" data-lang="about.title">{texts.about.title}</h2>
+        <p>
+          Pearbeats ist eine unabhängige Booking-Agentur mit Sitz in
+          Deutschland. Wir vermitteln Jazz- und Contemporary-Musiker:innen
+          an Festivals, Clubs und Kulturveranstalter in ganz Europa.
+        </p>
+        <p>
+          Unsere Mission: außergewöhnliche Live-Erlebnisse schaffen – durch
+          sorgfältig kuratierte Line-ups, persönliche Betreuung und ein tiefes
+          Verständnis für die Musikszene.
+        </p>
+        <div class="about-stats">
+          <div class="stat-item">
+            <h3>50+</h3>
+            <p data-lang="about.stats1">{texts.about.stats1}</p>
+          </div>
+          <div class="stat-item">
+            <h3>120+</h3>
+            <p data-lang="about.stats2">{texts.about.stats2}</p>
+          </div>
+          <div class="stat-item">
+            <h3>Europa</h3>
+            <p data-lang="about.stats3">{texts.about.stats3}</p>
+          </div>
+        </div>
+      </div>
+      <div class="about-visual">
+        <div class="about-visual-card">
+          <svg viewBox="0 0 100 100">
+            <path d="M50 10c-5 0-12 3-12 3s-25 5-25 35c0 25 20 42 37 42s37-17 37-42c0-30-25-35-25-35s-7-3-12-3z"/>
+            <path d="M50 10c0 8 5 12 5 12" stroke="white" stroke-width="3" fill="none"/>
+          </svg>
+          <h3>Pear-Garantie</h3>
+          <p>
+            Jedes Booking wird mit der gleichen Sorgfalt behandelt – ob
+            intimClub oder Mainstage.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

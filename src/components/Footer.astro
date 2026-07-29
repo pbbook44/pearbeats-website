@@ -1,0 +1,50 @@
+---
+import { uiTexts } from '../data/ui-texts';
+const { texts } = Astro.props;
+---
+
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-col">
+        <div class="footer-brand">
+          <div class="logo-mark"></div>
+          Pear<span>beats</span>
+        </div>
+        <p data-lang="footer.desc">{texts.footer.desc}</p>
+      </div>
+      <div class="footer-col">
+        <h4 data-lang="footer.navHeader">{texts.footer.navHeader}</h4>
+        <ul>
+          <li><a href="#about">{texts.nav.home}</a></li>
+          <li><a href="#artists">{texts.nav.artists}</a></li>
+          <li><a href="#services">{texts.nav.services}</a></li>
+          <li><a href="#venues">{texts.nav.venues}</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4 data-lang="footer.contactHeader">{texts.footer.contactHeader}</h4>
+        <ul>
+          <li><a href="mailto:booking@pearbeats.de">booking@pearbeats.de</a></li>
+          <li><a href="tel:+493012345678">{texts.contact.phone}</a></li>
+          <li>{texts.contact.location.split('·')[1]?.trim() || 'Berlin'}</li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4 data-lang="footer.legalHeader">{texts.footer.legalHeader}</h4>
+        <ul>
+          <li><a href="#">Impressum</a></li>
+          <li><a href="#">Datenschutz</a></li>
+          <li><a href="#">AGB</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2025–2026 Pearbeats. {texts.footer.copyright}</p>
+      <div class="footer-domains">
+        <a href="https://pearbeats.eu">pearbeats.eu</a>
+        <a href="https://pearbeats.de">pearbeats.de</a>
+      </div>
+    </div>
+  </div>
+</footer>
