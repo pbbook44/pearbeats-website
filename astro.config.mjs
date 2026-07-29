@@ -1,10 +1,8 @@
 import { defineConfig } from 'astro/config';
 
 export default defineConfig({
-  site: 'https://pearbeats.eu',
+  site: 'https://pbbook44.github.io/pearbeats-website/',
   output: 'static',
-  build: {
-    format: 'directory'
-  },
+  base: '/pearbeats-website/',  // ← WICHTIG: Subpath für GitHub Pages!
   outDir: 'docs'
 });
