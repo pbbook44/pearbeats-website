@@ -31,17 +31,10 @@ const texts = lang === 'de' ? uiTexts.de : uiTexts.en;
 <script>
   const navToggle = document.getElementById('navToggle');
   const navMenu = document.getElementById('navMenu');
-  
-  navToggle?.addEventListener('click', () => {
-    navMenu?.classList.toggle('active');
-  });
-  
+  navToggle?.addEventListener('click', () => navMenu?.classList.toggle('active'));
   document.querySelectorAll('.nav-links a').forEach(link => {
-    link.addEventListener('click', () => {
-      navMenu?.classList.remove('active');
-    });
+    link.addEventListener('click', () => navMenu?.classList.remove('active'));
   });
-  
   const navbar = document.querySelector('.navbar');
   window.addEventListener('scroll', () => {
     if (window.scrollY > 20) {

@@ -1,8 +1,7 @@
 import { defineConfig } from 'astro/config';
 
 export default defineConfig({
-  site: 'https://pbbook44.github.io/pearbeats-website/',
+  site: 'https://pearbeats.de',
   output: 'static',
-  base: '/pearbeats-website/',
   outDir: 'docs'
 });

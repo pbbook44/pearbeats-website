@@ -1,5 +1,4 @@
 ---
-import { uiTexts } from '../data/ui-texts';
 const { texts } = Astro.props;
 ---
 
@@ -11,27 +10,27 @@ const { texts } = Astro.props;
           <div class="logo-mark"></div>
           Pear<span>beats</span>
         </div>
-        <p data-lang="footer.desc">{texts.footer.desc}</p>
+        <p>{texts.footer.desc}</p>
       </div>
       <div class="footer-col">
-        <h4 data-lang="footer.navHeader">{texts.footer.navHeader}</h4>
+        <h4>{texts.footer.navHeader}</h4>
         <ul>
-          <li><a href="#about">{texts.nav.home}</a></li>
-          <li><a href="#artists">{texts.nav.artists}</a></li>
-          <li><a href="#services">{texts.nav.services}</a></li>
-          <li><a href="#venues">{texts.nav.venues}</a></li>
+          <li><a href="/#about">{texts.nav.home}</a></li>
+          <li><a href="/#artists">{texts.nav.artists}</a></li>
+          <li><a href="/#services">{texts.nav.services}</a></li>
+          <li><a href="/#venues">{texts.nav.venues}</a></li>
         </ul>
       </div>
       <div class="footer-col">
-        <h4 data-lang="footer.contactHeader">{texts.footer.contactHeader}</h4>
+        <h4>{texts.footer.contactHeader}</h4>
         <ul>
           <li><a href="mailto:booking@pearbeats.de">booking@pearbeats.de</a></li>
           <li><a href="tel:+493012345678">{texts.contact.phone}</a></li>
-          <li>{texts.contact.location.split('·')[1]?.trim() || 'Berlin'}</li>
+          <li>Berlin</li>
         </ul>
       </div>
       <div class="footer-col">
-        <h4 data-lang="footer.legalHeader">{texts.footer.legalHeader}</h4>
+        <h4>{texts.footer.legalHeader}</h4>
         <ul>
           <li><a href="#">Impressum</a></li>
           <li><a href="#">Datenschutz</a></li>
