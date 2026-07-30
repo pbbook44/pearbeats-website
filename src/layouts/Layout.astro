@@ -1,10 +1,7 @@
 ---
-interface Props {
-  title: string;
-  lang: string;
-}
-
 const { title, lang = 'de' } = Astro.props;
+
+const BASE_PATH = '/pearbeats-website';
 ---
 
 <!DOCTYPE html>
@@ -16,19 +13,18 @@ const { title, lang = 'de' } = Astro.props;
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/css/styles.css">
-  <link rel="icon" type="image/x-icon" href="/favicon.ico">
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="stylesheet" href={BASE_PATH + '/css/styles.css'}>
+  <link rel="icon" type="image/x-icon" href={BASE_PATH + '/favicon.ico'}>
+  <link rel="icon" type="image/svg+xml" href={BASE_PATH + '/favicon.svg'}>
 </head>
 <body>
   <slot />
   
-  <!-- Booking Modal -->
   <div id="bookingModal" class="modal hidden">
     <div class="modal-content">
       <span class="close-btn" onclick="closeBookingModal()">×</span>
       <h2>{lang === 'de' ? 'Booking angefragt' : 'Booking Request'}</h2>
-      <p id="modalArtistName" style="margin: 16px 0; font-size: 1.1rem;"></p>
+      <p id="modalArtistName"></p>
       <div id="modalButtons" style="display: flex; gap: 12px; margin-top: 20px;">
         <a id="btnEpk" href="#" target="_blank" class="btn btn-primary">{lang === 'de' ? 'EPK ansehen' : 'View EPK'}</a>
         <a id="btnBandcamp" href="#" target="_blank" class="btn btn-outline">{lang === 'de' ? 'Auf Bandcamp' : 'On Bandcamp'}</a>
@@ -38,62 +34,34 @@ const { title, lang = 'de' } = Astro.props;
   </div>
   
   <script>
-    // Language toggle functionality
     const currentLang = document.documentElement.lang;
     const langToggle = document.getElementById('langToggle');
-    
     if (langToggle) {
       langToggle.addEventListener('click', () => {
-        if (currentLang === 'en') {
-          window.location.href = '/';
-        } else {
-          window.location.href = '/en/';
-        }
+        window.location.href = currentLang === 'en' ? '/' : '/en/';
       });
     }
     
-    // Booking Modal Functions
     let currentArtistData = null;
-    
     window.openBookingModal = function(element) {
       const template = element.querySelector('.modal-data');
       if (!template) return;
-      
       try {
         currentArtistData = JSON.parse(template.textContent);
-        
         document.getElementById('modalArtistName').textContent = currentArtistData.ensemble;
         document.getElementById('btnEpk').href = currentArtistData.epk || '#';
         document.getElementById('btnBandcamp').href = currentArtistData.bandcamp || '#';
-        
-        // Show modal
         document.getElementById('bookingModal').classList.remove('hidden');
-        
-        // Form prefill
-        setTimeout(() => {
-          const subjectField = document.getElementById('formType');
-          const messageField = document.getElementById('message');
-          
-          if (subjectField) subjectField.value = 'Festival Booking';
-          if (messageField) {
-            messageField.value = `${currentArtistData.description || ''}\n\nEvent-Datum: [bitte einfügen]\nLocation: [bitte einfügen]\nBudgetrahmen: [bitte einfügen]`;
-          }
-        }, 100);
       } catch (e) {
-        console.error('Error parsing artist data:', e);
+        console.error('Error:', e);
       }
     };
-    
     window.closeBookingModal = function() {
       document.getElementById('bookingModal').classList.add('hidden');
     };
-    
-    // Close on outside click
     document.getElementById('bookingModal').addEventListener('click', (e) => {
       if (e.target.id === 'bookingModal') closeBookingModal();
     });
-    
-    // Smooth scroll
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
       anchor.addEventListener('click', function(e) {
         e.preventDefault();
