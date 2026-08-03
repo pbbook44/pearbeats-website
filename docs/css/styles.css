@@ -22,9 +22,9 @@
   --gray: #666;
   --gray-light: #eee;
 
-  /* Typography */
-  --font-heading: 'Poppins', system-ui, sans-serif;
-  --font-body: 'Inter', system-ui, sans-serif;
+  /* Typography - WICHTIG: Muss mit Layout.astro übereinstimmen! */
+  --font-heading: 'Playfair Display', serif;
+  --font-body: 'Inter', sans-serif;
 
   /* Layout */
   --spacing-xs: 4px;
