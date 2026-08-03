@@ -4,24 +4,50 @@
 
 /* ========== 1. CORE VARIABLES ========== */
 :root {
+  /* Pear Greens */
   --pear-green: #B5C730;
   --pear-green-light: #dbe29c;
+  --pear-light: #d4e89e;
+  --pear-pale: #eff5d6;
+  --pear-dark: #9aa820;
+
+  /* Neutrals */
+  --white: #fff;
+  --charcoal: #1a1a2e;
   --color-text: #222;
   --color-text-muted: #666;
   --color-bg: #fff;
   --color-border: #ddd;
+  --cream: #faf8f3;
+  --gray: #666;
+  --gray-light: #eee;
+
+  /* Typography */
+  --font-heading: 'Poppins', system-ui, sans-serif;
+  --font-body: 'Inter', system-ui, sans-serif;
+
+  /* Layout */
   --spacing-xs: 4px;
   --spacing-sm: 8px;
   --spacing-md: 16px;
   --spacing-lg: 24px;
   --spacing-xl: 32px;
+
+  /* Radius */
   --radius-sm: 4px;
   --radius-md: 8px;
   --radius-lg: 12px;
+  --radius: 16px;
+
+  /* Shadows */
   --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.1);
   --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.15);
   --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.4);
+
+  /* Transitions */
+  --transition: all 0.3s ease;
 }
+
 /* ========== 2. RESET & BASE ========== */
 * { margin: 0; padding: 0; box-sizing: border-box; }
 *, *::before, *::after {
@@ -31,7 +57,7 @@ html { scroll-behavior: smooth; }
 
 body {
   margin: 0;
-  font-family: system-ui, -apple-system, sans-serif;
+  font-family: var(--font-body);
   color: var(--color-text);
   background: var(--color-bg);
   line-height: 1.5;
@@ -73,7 +99,6 @@ img { max-width: 100%; display: block; }
   margin-bottom: var(--spacing-xl);
 }
 
-
 section { padding: 100px 0; }
 
 /* ========== 4. BUTTONS ========== */
@@ -88,34 +113,12 @@ section { padding: 100px 0; }
   font-size: 0.95rem;
   cursor: pointer;
   border: none;
-  transition: transform 0.15s ease, opacity 0.15s ease;
+  transition: var(--transition);
 }
 
 .btn:hover {
-  transform: translateY(-1px);
+  transform: translateY(-2px);
   opacity: 0.92;
-}
-
-.btn-primary {
-  background: var(--pear-green);
-  color: #fff;
-}
-
-.btn-secondary {
-  background: transparent;
-  border: 2px solid var(--pear-green);
-  color: var(--pear-green);
-}
-
-.btn-outline {
-  background: transparent;
-  border: 2px solid var(--color-border);
-  color: var(--color-text-muted);
-}
-
-.btn-lg {
-  padding: 14px 28px;
-  font-size: 1rem;
 }
 
 .btn-primary {
@@ -130,6 +133,17 @@ section { padding: 100px 0; }
     transform: translateY(-2px);
 }
 
+.btn-secondary {
+  background: transparent;
+  border: 2px solid var(--pear-green);
+  color: var(--pear-green);
+}
+
+.btn-secondary:hover {
+    background: var(--pear-green);
+    color: var(--white);
+}
+
 .btn-outline {
     background: transparent;
     color: var(--white);
@@ -140,6 +154,11 @@ section { padding: 100px 0; }
     background: var(--white);
     color: var(--charcoal);
     border-color: var(--white);
+}
+
+.btn-lg {
+    padding: 14px 28px;
+    font-size: 1rem;
 }
 
 .hero-buttons {
