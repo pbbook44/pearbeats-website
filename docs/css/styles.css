@@ -950,3 +950,66 @@ footer {
     .footer-brand { justify-content: center; }
     .footer-col ul { display: flex; flex-direction: column; gap: 8px; }
 }
+
+/* ============================================
+   FIX: OVERRIDE OLD ARTIST STYLES
+   ============================================ */
+
+/* Force proper card dimensions */
+.artist-card {
+  width: auto !important;
+  min-width: 280px !important;
+  max-width: 360px !important;
+  height: auto !important;
+  display: flex !important;
+  flex-direction: column !important;
+  box-sizing: border-box !important;
+}
+
+/* Force card image area dimensions */
+.artist-card-image {
+  width: 100% !important;
+  height: 240px !important;
+  position: relative !important;
+  background: var(--pear-pale, #eff5d6) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  overflow: hidden !important;
+}
+
+/* Fix SVG size */
+.artist-card-image svg {
+  width: 80px !important;
+  height: 80px !important;
+  fill: var(--pear-green, #B5C730) !important;
+  opacity: 0.6 !important;
+}
+
+/* Force badge position */
+.artist-badge {
+  position: absolute !important;
+  top: 16px !important;
+  left: 16px !important;
+  background: var(--pear-green, #B5C730) !important;
+  color: var(--white, #fff) !important;
+  padding: 6px 14px !important;
+  border-radius: 20px !important;
+  font-size: 0.75rem !important;
+  font-weight: 600 !important;
+  z-index: 10 !important;
+}
+
+/* Force card info section */
+.artist-card-info {
+  padding: 20px !important;
+  background: var(--white, #fff) !important;
+  flex-shrink: 0 !important;
+}
+
+/* Ensure grid behaves */
+.artists-grid {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)) !important;
+  gap: 32px !important;
+}
