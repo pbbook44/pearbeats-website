@@ -10,7 +10,7 @@ interface Props {
 
 const { artist, texts, lang } = Astro.props;
 const modalId = `artist-modal-${artist.shortname}`;
-const t = texts.modal ?? { epkLink: 'EPK', bandcampLink: 'Bandcamp', bookNow: 'Anfragen' };
+const t = texts.modal ?? { epkLink: 'EPK', bandcampLink: 'Bandcamp', bookNow: 'Anfragen', close: 'Schließen' };
 
 function extractVideoId(url: string): string | null {
   if (!url) return null;
@@ -28,10 +28,8 @@ function normalizeBandcamp(url: string): string {
 
 const bandcampUrl = artist.bandcamp ? normalizeBandcamp(artist.bandcamp) : '';
 
-// Proton Drive Links sind keine direkten Bild-URLs
 const hasValidPhoto = artist.photo_url
-  && artist.photo_url.startsWith('http')
-  && !artist.photo_url.includes('drive.proton.me');
+  && (artist.photo_url.startsWith('/images/') || (artist.photo_url.startsWith('http') && !artist.photo_url.includes('drive.proton.me')));
 ---
 
 <article class="artist-card" data-shortname={artist.shortname}>
@@ -60,7 +58,7 @@ const hasValidPhoto = artist.photo_url
 
 <dialog id={modalId} class="artist-detail-modal">
   <form method="dialog">
-    <button class="modal-close" aria-label={t.close ?? 'Schließen'}>&times;</button>
+    <button class="modal-close" aria-label={t.close}>&times;</button>
   </form>
 
   <div class="modal-body">
@@ -92,19 +90,17 @@ const hasValidPhoto = artist.photo_url
           {t.bandcampLink}
         </a>
       )}
-      <a
-        href="#contact"
+      <button
         class="btn btn-primary"
-        onclick={`document.getElementById('${modalId}').close();`}
+        onclick={`document.getElementById('${modalId}').close(); window.selectArtistForBooking('${artist.ensemble.replace(/'/g, "\\'")}');`}
       >
         {t.bookNow}
-      </a>
+      </button>
     </div>
   </div>
 </dialog>
 
 <style>
-  /* ===== Card ===== */
   .artist-card {
     background: var(--white);
     border-radius: var(--radius);
@@ -188,7 +184,6 @@ const hasValidPhoto = artist.photo_url
     color: var(--gray);
   }
 
-  /* ===== Modal ===== */
   .artist-detail-modal {
     border: none;
     border-radius: var(--radius);

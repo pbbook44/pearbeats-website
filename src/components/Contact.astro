@@ -1,63 +1,395 @@
 ---
 import { uiTexts } from '../data/ui-texts';
+import { loadArtists } from '../data/loadArtists';
+
+interface Props {
+  texts: typeof uiTexts.de;
+  lang: 'de' | 'en';
+}
+
 const { texts, lang } = Astro.props;
+const t = texts.contact;
+const artists = await loadArtists();
+
+// JS für Modal-Schließen bei Backdrop-Klick und Artist-Auswahl
+const backdropScript = `
+document.addEventListener('click', (e) => {
+  if (e.target.classList && e.target.classList.contains('artist-detail-modal')) {
+    const rect = e.target.getBoundingClientRect();
+    const clickedInside = (
+      e.clientX >= rect.left && e.clientX <= rect.right &&
+      e.clientY >= rect.top && e.clientY <= rect.bottom
+    );
+    if (!clickedInside) e.target.close();
+  }
+});
+
+window.selectArtistForBooking = function(artistName) {
+  const bookingTab = document.getElementById('tab-booking');
+  const applyTab = document.getElementById('tab-apply');
+  const bookingForm = document.getElementById('booking-form');
+  const applyForm = document.getElementById('apply-form');
+  
+  if (bookingTab && applyTab && bookingForm && applyForm) {
+    bookingTab.classList.add('active');
+    applyTab.classList.remove('active');
+    bookingForm.style.display = '';
+    applyForm.style.display = 'none';
+  }
+  
+  const select = document.getElementById('booking-artist');
+  if (select) {
+    let found = false;
+    for (const option of select.options) {
+      if (option.value === artistName) {
+        option.selected = true;
+        found = true;
+        break;
+      }
+    }
+    if (!found) select.value = 'other';
+  }
+  
+  const contactSection = document.getElementById('contact');
+  if (contactSection) {
+    contactSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+};
+
+window.switchContactTab = function(tab) {
+  const bookingTab = document.getElementById('tab-booking');
+  const applyTab = document.getElementById('tab-apply');
+  const bookingForm = document.getElementById('booking-form');
+  const applyForm = document.getElementById('apply-form');
+
+  if (tab === 'booking') {
+    if (bookingTab) bookingTab.classList.add('active');
+    if (applyTab) applyTab.classList.remove('active');
+    if (bookingForm) bookingForm.style.display = '';
+    if (applyForm) applyForm.style.display = 'none';
+  } else {
+    if (applyTab) applyTab.classList.add('active');
+    if (bookingTab) bookingTab.classList.remove('active');
+    if (applyForm) applyForm.style.display = '';
+    if (bookingForm) bookingForm.style.display = 'none';
+  }
+};
+
+document.addEventListener('DOMContentLoaded', () => {
+  const bookingForm = document.getElementById('booking-form');
+  if (bookingForm) {
+    bookingForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      alert('Anfrage wird gesendet... (API noch nicht verbunden)');
+    });
+  }
+
+  const applyForm = document.getElementById('apply-form');
+  if (applyForm) {
+    applyForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      alert('Bewerbung wird gesendet... (API noch nicht verbunden)');
+    });
+  }
+});
+`;
 ---
 
-<section class="contact" id="contact">
+<section id="contact" class="contact">
   <div class="container">
     <div class="contact-inner">
       <div class="contact-info">
-        <span class="section-label" style="color: var(--pear-pale);">{texts.contact.label}</span>
-        <h2>{texts.contact.title}</h2>
-        <p>{texts.contact.intro}</p>
+        <span class="section-label" style="color: rgba(255,255,255,0.7);">{t.label}</span>
+        <h2>{t.title}</h2>
+        <p>{t.subtitle}</p>
 
         <div class="contact-detail">
           <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
-          <span>{texts.contact.email}</span>
-        </div>
-        <div class="contact-detail">
-          <svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 1.24 0 2.45.2 3.57.57.35.12.75.03 1.02-.24l2.2-2.2z"/></svg>
-          <span>{texts.contact.phone}</span>
-        </div>
-        <div class="contact-detail">
-          <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>
-          <span>{texts.contact.location}</span>
+          <span>{t.email}</span>
         </div>
 
-        <div class="social-links">
-          <a href="#" class="social-link" aria-label="Instagram">
-            <svg viewBox="0 0 24 24"><path d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2m-.2 2A3.6 3.6 0 0 0 4 7.6v8.8C4 18.39 5.61 20 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6C20 5.61 18.39 4 16.4 4H7.6m9.65 1.5a1.25 1.25 0 0 1 1.25 1.25A1.25 1.25 0 0 1 17.25 8 1.25 1.25 0 0 1 16 6.75a1.25 1.25 0 0 1 1.25-1.25M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3z"/></svg>
-          </a>
-          <a href="#" class="social-link" aria-label="X / Twitter">
-            <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-          </a>
+        <div class="contact-tabs">
+          <button 
+            class="tab-btn active" 
+            id="tab-booking" 
+            onclick="switchContactTab('booking')"
+          >
+            {t.bookingTab}
+          </button>
+          <button 
+            class="tab-btn" 
+            id="tab-apply" 
+            onclick="switchContactTab('apply')"
+          >
+            {t.applyTab}
+          </button>
         </div>
       </div>
 
-      <form class="contact-form" onsubmit="event.preventDefault(); alert(lang === 'de' ? 'Danke! Wir melden uns innerhalb von 48 Stunden.' : 'Thank you! We will respond within 48 hours.');">
-        <div class="form-row">
+      <div class="contact-form-wrapper">
+        <form class="contact-form" id="booking-form">
+          <h3>{t.bookingTitle}</h3>
+          
           <div class="form-group">
-            <label for="name">{texts.contact.formName} *</label>
-            <input type="text" id="name" name="name" placeholder={texts.contact.formName} required>
+            <label for="booking-name">{t.name} *</label>
+            <input type="text" id="booking-name" name="name" required autocomplete="name" placeholder={t.namePlaceholder} />
           </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="booking-email">{t.formEmail} *</label>
+              <input type="email" id="booking-email" name="email" required autocomplete="email" placeholder={t.emailPlaceholder} />
+            </div>
+            <div class="form-group">
+              <label for="booking-org">{t.organization}</label>
+              <input type="text" id="booking-org" name="organization" autocomplete="organization" placeholder={t.orgPlaceholder} />
+            </div>
+          </div>
+
           <div class="form-group">
-            <label for="email">{texts.contact.formEmail} *</label>
-            <input type="email" id="email" name="email" placeholder="ihre@email.de" required>
+            <label for="booking-artist">{t.selectArtist}</label>
+            <select id="booking-artist" name="artist">
+              <option value="">{t.anyArtist}</option>
+              {artists.map(artist => (
+                <option value={artist.ensemble}>{artist.ensemble}</option>
+              ))}
+              <option value="other">{t.otherArtist}</option>
+            </select>
           </div>
-        </div>
-        <div class="form-group">
-          <label for="type">{texts.contact.formType}</label>
-          <select id="formType" name="type">
-            <option value="">Bitte wählen…</option>
-            {texts.footer.typeOptions.map(option => <option value={option}>{option}</option>)}
-          </select>
-        </div>
-        <div class="form-group">
-          <label for="message">{texts.contact.formMessage} *</label>
-          <textarea id="message" name="message" placeholder="..." required style="min-height: 120px;"></textarea>
-        </div>
-        <button type="submit" class="form-submit">{texts.contact.btnSubmit}</button>
-      </form>
+
+          <div class="form-group">
+            <label for="booking-message">{t.formMessage} *</label>
+            <textarea id="booking-message" name="message" required placeholder={t.messagePlaceholder}></textarea>
+          </div>
+
+          <button type="submit" class="form-submit">{t.submit}</button>
+        </form>
+
+        <form class="contact-form" id="apply-form" style="display: none;">
+          <h3>{t.applyTitle}</h3>
+          
+          <div class="form-group">
+            <label for="apply-name">{t.artistName} *</label>
+            <input type="text" id="apply-name" name="artist_name" required placeholder={t.artistNamePlaceholder} />
+          </div>
+
+          <div class="form-group">
+            <label for="apply-size">{t.ensembleSize} *</label>
+            <select id="apply-size" name="ensemble_size" required>
+              <option value="">-- {t.selectSize} --</option>
+              <option value="solo">Solo</option>
+              <option value="duo">Duo</option>
+              <option value="3-7">3-7</option>
+              <option value="7-12">7-12</option>
+              <option value="12+">&gt;12</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="apply-email">{t.formEmail} *</label>
+            <input type="email" id="apply-email" name="email" required autocomplete="email" placeholder={t.emailPlaceholder} />
+          </div>
+
+          <div class="form-group">
+            <label for="apply-social">{t.socialMedia}</label>
+            <input type="url" id="apply-social" name="social_media" placeholder="https://instagram.com/..." />
+          </div>
+
+          <div class="form-group">
+            <label for="apply-website">{t.website}</label>
+            <input type="url" id="apply-website" name="website" placeholder="https://..." />
+          </div>
+
+          <div class="form-group">
+            <label for="apply-audio">{t.audioLink}</label>
+            <input type="url" id="apply-audio" name="audio_link" placeholder="https://bandcamp.com/..." />
+          </div>
+
+          <button type="submit" class="form-submit">{t.submitApply}</button>
+        </form>
+      </div>
     </div>
   </div>
 </section>
+
+<script set:html={backdropScript} />
+
+<style>
+  .contact {
+    background: var(--pear-green);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .contact::before {
+    content: '';
+    position: absolute;
+    top: -10%;
+    left: -5%;
+    width: 400px;
+    height: 400px;
+    background: var(--pear-light);
+    border-radius: 50%;
+    opacity: 0.2;
+  }
+
+  .contact-inner {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 60px;
+    align-items: start;
+  }
+
+  .contact-info h2 {
+    color: var(--white);
+    font-size: 2.6rem;
+    margin-bottom: 24px;
+  }
+
+  .contact-info p {
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 1.1rem;
+    margin-bottom: 40px;
+  }
+
+  .contact-detail {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 30px;
+    align-items: center;
+  }
+
+  .contact-detail svg {
+    width: 22px;
+    height: 22px;
+    fill: var(--white);
+    opacity: 0.8;
+  }
+
+  .contact-detail span {
+    color: var(--white);
+    font-size: 1rem;
+  }
+
+  .contact-tabs {
+    display: flex;
+    gap: 8px;
+    margin-top: 32px;
+  }
+
+  .tab-btn {
+    padding: 10px 20px;
+    background: rgba(255, 255, 255, 0.15);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: var(--radius-sm);
+    color: var(--white);
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    font-family: var(--font-body);
+  }
+
+  .tab-btn:hover {
+    background: rgba(255, 255, 255, 0.25);
+  }
+
+  .tab-btn.active {
+    background: var(--white);
+    color: var(--pear-green);
+    border-color: var(--white);
+  }
+
+  .contact-form-wrapper {
+    background: var(--white);
+    padding: 40px;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .contact-form h3 {
+    margin: 0 0 24px;
+    font-size: 1.3rem;
+    color: var(--charcoal);
+  }
+
+  .form-group {
+    margin-bottom: 20px;
+  }
+
+  .form-group label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--charcoal);
+    margin-bottom: 8px;
+  }
+
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    width: 100%;
+    padding: 12px 14px;
+    border: 2px solid var(--gray-light);
+    border-radius: var(--radius-sm);
+    font-family: var(--font-body);
+    font-size: 1rem;
+    transition: var(--transition);
+    outline: none;
+    background: var(--white);
+  }
+
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus {
+    border-color: var(--pear-green);
+    background: var(--pear-pale);
+  }
+
+  .form-group textarea {
+    resize: vertical;
+    min-height: 120px;
+  }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+
+  .form-submit {
+    width: 100%;
+    background: var(--pear-green);
+    color: var(--white);
+    padding: 16px;
+    border: none;
+    border-radius: var(--radius-sm);
+    font-size: 1.05rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: var(--transition);
+    font-family: var(--font-body);
+  }
+
+  .form-submit:hover {
+    background: var(--pear-dark);
+    transform: translateY(-1px);
+  }
+
+  @media (max-width: 900px) {
+    .contact-inner {
+      grid-template-columns: 1fr;
+    }
+    .form-row {
+      grid-template-columns: 1fr;
+    }
+    .contact-info h2 {
+      font-size: 2rem;
+    }
+    .contact-tabs {
+      flex-direction: column;
+    }
+  }
+</style>
