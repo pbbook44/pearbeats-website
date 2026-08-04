@@ -1,4 +1,9 @@
 ---
+interface Props {
+  title: string;
+  lang?: 'de' | 'en';
+}
+
 const { title, lang = 'de' } = Astro.props;
 ---
 

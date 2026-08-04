@@ -9,31 +9,308 @@ interface Props {
 }
 
 const { artist, texts, lang } = Astro.props;
-const description = lang === 'de' ? artist.description_de : artist.description_en;
+const modalId = `artist-modal-${artist.shortname}`;
+const t = texts.modal ?? { epkLink: 'EPK', bandcampLink: 'Bandcamp', bookNow: 'Anfragen' };
+
+function extractVideoId(url: string): string | null {
+  if (!url) return null;
+  const match = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&\s]+)/);
+  return match?.[1] ?? null;
+}
+
+const videoId = artist.video ? extractVideoId(artist.video) : null;
+
+function normalizeBandcamp(url: string): string {
+  if (!url) return '';
+  if (url.startsWith('http')) return url;
+  return `https://${url}`;
+}
+
+const bandcampUrl = artist.bandcamp ? normalizeBandcamp(artist.bandcamp) : '';
 ---
 
-<article class="artist-card" data-shortname={artist.shortname} onclick="openBookingModal(this)">
-  <div class="artist-img">
-    <svg viewBox="0 0 80 80">
-      <circle cx="40" cy="28" r="16"/>
-      <path d="M12 70c0-16 12-26 28-26s28 10 28 26"/>
-    </svg>
-    {artist.photo_url && <img src={artist.photo_url} alt={artist.ensemble} loading="lazy" />}
-    <span class="artist-genre">{artist.genre}</span>
-  </div>
-  <div class="artist-info">
-    <h3>{artist.ensemble}</h3>
-    <p>{description} · {artist.stadt || ''}</p>
-  </div>
-  
-  <template class="modal-data">
-    {JSON.stringify({
-      ensemble: artist.ensemble,
-      shortname: artist.shortname,
-      epk: artist.epk,
-      bandcamp: artist.bandcamp,
-      techrider: artist.techrider_intern,
-      description: description
-    })}
-  </template>
+<article class="artist-card" data-shortname={artist.shortname}>
+  <button
+    class="card-trigger"
+    aria-label={`Details für ${artist.ensemble}`}
+    onclick={`document.getElementById('${modalId}').showModal()`}
+  >
+    <div class="artist-card-image">
+      <svg viewBox="0 0 80 80" role="img" aria-hidden="true">
+        <circle cx="40" cy="28" r="16" />
+        <path d="M12 70c0-16 12-26 28-26s28 10 28 26" />
+      </svg>
+      {artist.photo_url && (
+        <img src={artist.photo_url} alt={artist.ensemble} loading="lazy" />
+      )}
+      {artist.genre && <span class="artist-badge">{artist.genre}</span>}
+    </div>
+    
+    <div class="artist-card-info">
+      <h3>{artist.ensemble}</h3>
+      {artist.stadt && <p class="city">{artist.stadt}</p>}
+    </div>
+  </button>
 </article>
+
+<dialog id={modalId} class="artist-detail-modal">
+  <form method="dialog">
+    <button class="modal-close" aria-label={t.close ?? 'Schließen'}>&times;</button>
+  </form>
+
+  <div class="modal-body">
+    <header class="modal-header">
+      <h2>{artist.ensemble}</h2>
+      {artist.genre && <span class="modal-genre">{artist.genre}</span>}
+    </header>
+
+    {videoId && (
+      <div class="modal-video">
+        <iframe
+          src={`https://www.youtube.com/embed/${videoId}`}
+          title={`${artist.ensemble} Video`}
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+        ></iframe>
+      </div>
+    )}
+
+    <div class="modal-links">
+      {artist.epk && (
+        <a href={artist.epk} target="_blank" rel="noopener" class="btn btn-secondary">
+          {t.epkLink}
+        </a>
+      )}
+      {bandcampUrl && (
+        <a href={bandcampUrl} target="_blank" rel="noopener" class="btn btn-secondary">
+          {t.bandcampLink}
+        </a>
+      )}
+      <a
+        href="#contact"
+        class="btn btn-primary"
+        onclick={`document.getElementById('${modalId}').close();`}
+      >
+        {t.bookNow}
+      </a>
+    </div>
+  </div>
+</dialog>
+
+<style>
+  /* ===== Selbstständige Card-Komponente ===== */
+  .artist-card {
+    background: var(--white);
+    border-radius: var(--radius);
+    overflow: hidden;
+    transition: var(--transition);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .artist-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .card-trigger {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    width: 100%;
+    text-align: left;
+    font: inherit;
+    color: inherit;
+  }
+
+  /* Card Image Area */
+  .artist-card-image {
+    position: relative;
+    width: 100%;
+    height: 240px;
+    background: var(--pear-pale);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .artist-card-image svg {
+    width: 80px;
+    height: 80px;
+    fill: var(--pear-green);
+    opacity: 0.6;
+  }
+
+  .artist-card-image img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .artist-badge {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    background: var(--pear-green);
+    color: var(--white);
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    z-index: 2;
+  }
+
+  /* Card Info Area */
+  .artist-card-info {
+    padding: 20px;
+    background: var(--white);
+  }
+
+  .artist-card-info h3 {
+    margin: 0 0 6px 0;
+    font-size: 1.2rem;
+    font-weight: 600;
+    line-height: 1.3;
+  }
+
+  .artist-card-info p.city {
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--gray);
+  }
+
+  /* ===== MODAL ===== */
+  .artist-detail-modal {
+    border: none;
+    border-radius: var(--radius);
+    max-width: 720px;
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 0;
+    box-shadow: var(--shadow-lg);
+    background: var(--white);
+    color: var(--charcoal);
+    overflow: hidden;
+  }
+
+  .artist-detail-modal::backdrop {
+    background: rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(4px);
+  }
+
+  .artist-detail-modal[open] {
+    animation: modalFadeIn 0.2s ease-out;
+  }
+
+  @keyframes modalFadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-50%) scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(-50%) scale(1);
+    }
+  }
+
+  .modal-close {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: rgba(0, 0, 0, 0.05);
+    border: none;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    font-size: 22px;
+    line-height: 1;
+    cursor: pointer;
+    z-index: 10;
+    color: var(--gray);
+    transition: var(--transition);
+  }
+
+  .modal-close:hover {
+    background: rgba(0, 0, 0, 0.12);
+  }
+
+  .modal-body {
+    padding: 32px;
+  }
+
+  .modal-header {
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .modal-header h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    color: var(--charcoal);
+  }
+
+  .modal-genre {
+    display: inline-block;
+    padding: 4px 12px;
+    background: var(--pear-green);
+    border-radius: 20px;
+    font-size: 0.8rem;
+    color: var(--white);
+  }
+
+  .modal-video {
+    margin: 0 0 24px 0;
+  }
+
+  .modal-video iframe {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border: none;
+    border-radius: var(--radius-md);
+  }
+
+  .modal-links {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .modal-links .btn-primary {
+    background: var(--pear-green);
+    color: var(--white);
+    border: 2px solid var(--pear-green);
+  }
+
+  .modal-links .btn-primary:hover {
+    background: transparent;
+    color: var(--pear-green);
+  }
+
+  @media (max-width: 640px) {
+    .artist-detail-modal {
+      width: 95%;
+    }
+
+    .modal-body {
+      padding: 20px;
+    }
+
+    .modal-links {
+      flex-direction: column;
+    }
+
+    .modal-links .btn {
+      width: 100%;
+    }
+  }
+</style>
