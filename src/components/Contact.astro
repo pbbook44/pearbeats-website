@@ -129,17 +129,21 @@ const artists = await loadArtists();
   const artistSelectField = document.getElementById('artist-select-field');
   const orgField = document.getElementById('org-field');
   const applicationFields = document.getElementById('application-fields');
-  const appOrgField = document.getElementById('contact-org').parentElement;
+
+  // Werte aus dem Frontend lesen (nicht als Strings!)
+  const bookingTitleText = document.getElementById('form-title')?.textContent || 'Booking Anfrage';
+  const applyTitleText = 'Als Artist bewerben';
+  const bookingSubmitText = document.getElementById('submit-btn')?.textContent || 'Anfrage absenden';
+  const applySubmitText = 'Bewerbung absenden';
 
   window.switchContactTab = function(mode) {
     if (mode === 'booking') {
       if (bookingTab) bookingTab.classList.add('active');
       if (applyTab) applyTab.classList.remove('active');
       
-      if (formTitle) formTitle.textContent = '{t.bookingTitle}';
-      if (submitBtn) submitBtn.textContent = '{t.submit}';
+      if (formTitle) formTitle.textContent = bookingTitleText;
+      if (submitBtn) submitBtn.textContent = bookingSubmitText;
       
-      // Booking-spezifische Felder zeigen
       if (artistSelectField) artistSelectField.style.display = '';
       if (orgField) orgField.style.display = '';
       if (applicationFields) applicationFields.style.display = 'none';
@@ -147,10 +151,9 @@ const artists = await loadArtists();
       if (applyTab) applyTab.classList.add('active');
       if (bookingTab) bookingTab.classList.remove('active');
       
-      if (formTitle) formTitle.textContent = '{t.applyTitle}';
-      if (submitBtn) submitBtn.textContent = '{t.submitApply}';
+      if (formTitle) formTitle.textContent = applyTitleText;
+      if (submitBtn) submitBtn.textContent = applySubmitText;
       
-      // Bewerbung-spezifische Felder zeigen
       if (artistSelectField) artistSelectField.style.display = 'none';
       if (orgField) orgField.style.display = 'none';
       if (applicationFields) applicationFields.style.display = '';
@@ -179,7 +182,6 @@ const artists = await loadArtists();
       if (!found) select.value = 'other';
     }
 
-    // Delay für sanftes Scrollen nach Modal-Schließung
     setTimeout(() => {
       const contactSection = document.getElementById('contact');
       if (contactSection) {
@@ -188,7 +190,6 @@ const artists = await loadArtists();
     }, 300);
   };
 
-  // Form Submit
   if (mainForm) {
     mainForm.addEventListener('submit', (e) => {
       e.preventDefault();
