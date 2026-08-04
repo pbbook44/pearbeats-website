@@ -27,6 +27,7 @@ const artists = await loadArtists();
 
         <div class="contact-tabs">
           <button 
+            type="button"
             class="tab-btn active" 
             id="tab-booking" 
             onclick="switchContactTab('booking')"
@@ -34,6 +35,7 @@ const artists = await loadArtists();
             {t.bookingTab}
           </button>
           <button 
+            type="button"
             class="tab-btn" 
             id="tab-apply" 
             onclick="switchContactTab('apply')"
@@ -44,28 +46,30 @@ const artists = await loadArtists();
       </div>
 
       <div class="contact-form-wrapper">
-        <form class="contact-form" id="booking-form">
-          <h3>{t.bookingTitle}</h3>
+        <!-- EINZELNES FORMULAR -->
+        <form class="contact-form" id="main-contact-form">
+          <h3 id="form-title">{t.bookingTitle}</h3>
           
           <div class="form-group">
-            <label for="booking-name">{t.name} *</label>
-            <input type="text" id="booking-name" name="name" required autocomplete="name" placeholder={t.namePlaceholder} />
+            <label for="contact-name">{t.name} *</label>
+            <input type="text" id="contact-name" name="name" required autocomplete="name" placeholder={t.namePlaceholder} />
           </div>
 
           <div class="form-row">
             <div class="form-group">
-              <label for="booking-email">{t.formEmail} *</label>
-              <input type="email" id="booking-email" name="email" required autocomplete="email" placeholder={t.emailPlaceholder} />
+              <label for="contact-email">{t.formEmail} *</label>
+              <input type="email" id="contact-email" name="email" required autocomplete="email" placeholder={t.emailPlaceholder} />
             </div>
-            <div class="form-group">
-              <label for="booking-org">{t.organization}</label>
-              <input type="text" id="booking-org" name="organization" autocomplete="organization" placeholder={t.orgPlaceholder} />
+            <div class="form-group" id="org-field">
+              <label for="contact-org">{t.organization}</label>
+              <input type="text" id="contact-org" name="organization" autocomplete="organization" placeholder={t.orgPlaceholder} />
             </div>
           </div>
 
-          <div class="form-group">
-            <label for="booking-artist">{t.selectArtist}</label>
-            <select id="booking-artist" name="artist">
+          <!-- Nur für Booking sichtbar -->
+          <div class="form-group" id="artist-select-field">
+            <label for="contact-artist">{t.selectArtist}</label>
+            <select id="contact-artist" name="artist">
               <option value="">{t.anyArtist}</option>
               {artists.map(artist => (
                 <option value={artist.ensemble}>{artist.ensemble}</option>
@@ -74,55 +78,42 @@ const artists = await loadArtists();
             </select>
           </div>
 
-          <div class="form-group">
-            <label for="booking-message">{t.formMessage} *</label>
-            <textarea id="booking-message" name="message" required placeholder={t.messagePlaceholder}></textarea>
-          </div>
+          <!-- Felder, die nur bei Bewerbung sichtbar sind -->
+          <div class="application-fields" id="application-fields" style="display: none;">
+            <div class="form-group">
+              <label for="app-size">{t.ensembleSize} *</label>
+              <select id="app-size" name="ensemble_size" required>
+                <option value="">-- {t.selectSize} --</option>
+                <option value="solo">Solo</option>
+                <option value="duo">Duo</option>
+                <option value="3-7">3-7</option>
+                <option value="7-12">7-12</option>
+                <option value="12+">&gt;12</option>
+              </select>
+            </div>
 
-          <button type="submit" class="form-submit">{t.submit}</button>
-        </form>
+            <div class="form-group">
+              <label for="app-social">{t.socialMedia}</label>
+              <input type="url" id="app-social" name="social_media" placeholder="https://instagram.com/..." />
+            </div>
 
-        <form class="contact-form" id="apply-form" style="display: none;">
-          <h3>{t.applyTitle}</h3>
-          
-          <div class="form-group">
-            <label for="apply-name">{t.artistName} *</label>
-            <input type="text" id="apply-name" name="artist_name" required placeholder={t.artistNamePlaceholder} />
-          </div>
+            <div class="form-group">
+              <label for="app-website">{t.website}</label>
+              <input type="url" id="app-website" name="website" placeholder="https://..." />
+            </div>
 
-          <div class="form-group">
-            <label for="apply-size">{t.ensembleSize} *</label>
-            <select id="apply-size" name="ensemble_size" required>
-              <option value="">-- {t.selectSize} --</option>
-              <option value="solo">Solo</option>
-              <option value="duo">Duo</option>
-              <option value="3-7">3-7</option>
-              <option value="7-12">7-12</option>
-              <option value="12+">&gt;12</option>
-            </select>
-          </div>
-
-          <div class="form-group">
-            <label for="apply-email">{t.formEmail} *</label>
-            <input type="email" id="apply-email" name="email" required autocomplete="email" placeholder={t.emailPlaceholder} />
+            <div class="form-group">
+              <label for="app-audio">{t.audioLink}</label>
+              <input type="url" id="app-audio" name="audio_link" placeholder="https://bandcamp.com/..." />
+            </div>
           </div>
 
           <div class="form-group">
-            <label for="apply-social">{t.socialMedia}</label>
-            <input type="url" id="apply-social" name="social_media" placeholder="https://instagram.com/..." />
+            <label for="contact-message">{t.formMessage} *</label>
+            <textarea id="contact-message" name="message" required placeholder={t.messagePlaceholder}></textarea>
           </div>
 
-          <div class="form-group">
-            <label for="apply-website">{t.website}</label>
-            <input type="url" id="apply-website" name="website" placeholder="https://..." />
-          </div>
-
-          <div class="form-group">
-            <label for="apply-audio">{t.audioLink}</label>
-            <input type="url" id="apply-audio" name="audio_link" placeholder="https://bandcamp.com/..." />
-          </div>
-
-          <button type="submit" class="form-submit">{t.submitApply}</button>
+          <button type="submit" class="form-submit" id="submit-btn">{t.submit}</button>
         </form>
       </div>
     </div>
@@ -130,35 +121,52 @@ const artists = await loadArtists();
 </section>
 
 <script>
-  const bookingForm = document.getElementById('booking-form');
-  const applyForm = document.getElementById('apply-form');
+  const mainForm = document.getElementById('main-contact-form');
+  const formTitle = document.getElementById('form-title');
+  const submitBtn = document.getElementById('submit-btn');
   const bookingTab = document.getElementById('tab-booking');
   const applyTab = document.getElementById('tab-apply');
+  const artistSelectField = document.getElementById('artist-select-field');
+  const orgField = document.getElementById('org-field');
+  const applicationFields = document.getElementById('application-fields');
+  const appOrgField = document.getElementById('contact-org').parentElement;
 
-  window.switchContactTab = function(tab) {
-    if (tab === 'booking') {
+  window.switchContactTab = function(mode) {
+    if (mode === 'booking') {
       if (bookingTab) bookingTab.classList.add('active');
       if (applyTab) applyTab.classList.remove('active');
-      if (bookingForm) bookingForm.style.display = '';
-      if (applyForm) applyForm.style.display = 'none';
+      
+      if (formTitle) formTitle.textContent = '{t.bookingTitle}';
+      if (submitBtn) submitBtn.textContent = '{t.submit}';
+      
+      // Booking-spezifische Felder zeigen
+      if (artistSelectField) artistSelectField.style.display = '';
+      if (orgField) orgField.style.display = '';
+      if (applicationFields) applicationFields.style.display = 'none';
     } else {
       if (applyTab) applyTab.classList.add('active');
       if (bookingTab) bookingTab.classList.remove('active');
-      if (applyForm) applyForm.style.display = '';
-      if (bookingForm) bookingForm.style.display = 'none';
+      
+      if (formTitle) formTitle.textContent = '{t.applyTitle}';
+      if (submitBtn) submitBtn.textContent = '{t.submitApply}';
+      
+      // Bewerbung-spezifische Felder zeigen
+      if (artistSelectField) artistSelectField.style.display = 'none';
+      if (orgField) orgField.style.display = 'none';
+      if (applicationFields) applicationFields.style.display = '';
     }
   };
 
   window.selectArtistForBooking = function(artistName) {
-    // Modal erst schließen wenn offen
+    // Modal erst schließen
     const modals = document.querySelectorAll('dialog[open]');
     modals.forEach(modal => modal.close());
 
-    // Tab auf Booking wechseln
+    // Auf Booking-Tab setzen
     switchContactTab('booking');
     
     // Dropdown setzen
-    const select = document.getElementById('booking-artist');
+    const select = document.getElementById('contact-artist');
     if (select) {
       let found = false;
       for (const option of select.options) {
@@ -171,7 +179,7 @@ const artists = await loadArtists();
       if (!found) select.value = 'other';
     }
 
-    // Leicht verzögert zum Kontakt-Formular scrollen (damit Modal schließt)
+    // Delay für sanftes Scrollen nach Modal-Schließung
     setTimeout(() => {
       const contactSection = document.getElementById('contact');
       if (contactSection) {
@@ -180,18 +188,14 @@ const artists = await loadArtists();
     }, 300);
   };
 
-  // Form Submit Handler
-  if (bookingForm) {
-    bookingForm.addEventListener('submit', (e) => {
+  // Form Submit
+  if (mainForm) {
+    mainForm.addEventListener('submit', (e) => {
       e.preventDefault();
+      const formData = new FormData(mainForm);
+      console.log('Form submitted:', Object.fromEntries(formData));
       alert('Anfrage wird gesendet... (API noch nicht verbunden)');
-    });
-  }
-
-  if (applyForm) {
-    applyForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      alert('Bewerbung wird gesendet... (API noch nicht verbunden)');
+      mainForm.reset();
     });
   }
 </script>
