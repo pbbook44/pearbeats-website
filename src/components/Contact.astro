@@ -205,4 +205,14 @@ const artists = await loadArtists();
       }
     }, 300);
   };
+  // Force-close all modals on page load
+  document.addEventListener('DOMContentLoaded', function() {
+    var allDialogs = document.querySelectorAll('dialog');
+    allDialogs.forEach(function(d) {
+      if (d.hasAttribute('open')) {
+        d.removeAttribute('open');
+      }
+      try { d.close(); } catch(e) {}
+    });
+  });
 </script>
