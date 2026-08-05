@@ -121,6 +121,135 @@ footer { color: rgba(255,255,255,0.7); padding: 60px 0 30px; }
 .footer-bottom { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 24px; display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; }
 .footer-bottom p { color: rgba(255,255,255,0.5); }
 
+/* ========== 9a. ICONS & CARDS RESTORE ========== */
+
+.icon-circle {
+  width: 56px;
+  height: 56px;
+  background: var(--pear-pale);
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 24px;
+}
+
+.icon-circle svg {
+  width: 28px;
+  height: 28px;
+  fill: var(--pear-green);
+}
+
+/* Service Cards */
+.service-card, .venue-benefit-card {
+  background: var(--white);
+  padding: 40px 30px;
+  border-radius: var(--radius);
+  border: 1px solid var(--gray-light);
+  transition: var(--transition);
+}
+
+.service-card:hover, .venue-benefit-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--pear-green);
+}
+
+.service-card h3, .venue-benefit-card h3 {
+  font-size: 1.3rem;
+  margin-bottom: 12px;
+  color: var(--charcoal);
+}
+
+.service-card p, .venue-benefit-card p {
+  color: var(--gray);
+  line-height: 1.6;
+}
+
+/* About Section Layout */
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+
+.about-text h2 {
+  margin-bottom: 24px;
+}
+
+.about-text p {
+  color: var(--gray);
+  margin-bottom: 20px;
+  font-size: 1.05rem;
+}
+
+.about-stats {
+  display: flex;
+  gap: 40px;
+  margin-top: 40px;
+}
+
+.stat-item h3 {
+  font-size: 2.8rem;
+  color: var(--pear-green);
+  margin-bottom: 4px;
+}
+
+.stat-item p {
+  font-size: 0.9rem;
+  color: var(--gray);
+  margin: 0;
+}
+
+.about-visual {
+  position: relative;
+}
+
+.about-visual-card {
+  background: var(--pear-green);
+  border-radius: var(--radius);
+  padding: 60px 40px;
+  text-align: center;
+  color: var(--white);
+  box-shadow: var(--shadow-lg);
+}
+
+.about-visual-card svg {
+  width: 80px;
+  height: 80px;
+  margin-bottom: 24px;
+  fill: var(--white);
+  opacity: 0.9;
+}
+
+.about-visual-card h3 {
+  font-size: 1.8rem;
+  margin-bottom: 12px;
+  color: var(--white);
+}
+
+.about-visual-card p {
+  color: rgba(255,255,255,0.85);
+  font-size: 1rem;
+}
+
+/* Venues Section */
+.venue-note {
+  margin-top: 40px;
+  padding: 24px 30px;
+  background: var(--cream);
+  border-radius: var(--radius);
+  color: var(--gray);
+  font-size: 0.95rem;
+  border-left: 4px solid var(--pear-green);
+}
+
+/* Text Visibility Override */
+h2, h3, .section-title {
+  color: var(--charcoal) !important;
+}
+
 /* ========== 10. RESPONSIVE ========== */
 @media (max-width: 900px) {
   .navbar { position: relative; }
