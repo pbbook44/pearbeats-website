@@ -623,3 +623,25 @@ dialog::backdrop {
   background: transparent;
   color: var(--pear-green);
 }
+
+/* ========== LANGUAGE SWITCHER ========== */
+.lang-switch {
+  background: var(--pear-pale) !important;
+  border: 2px solid var(--pear-green) !important;
+  padding: 6px 12px !important;
+  border-radius: 20px !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  font-size: 0.8rem !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 4px !important;
+  color: var(--charcoal) !important;
+  transition: var(--transition) !important;
+}
+
+.lang-switch:hover {
+  background: var(--white) !important;
+  border-color: var(--pear-green) !important;
+  color: var(--pear-green) !important;
+}
