@@ -633,72 +633,52 @@ dialog::backdrop {
   color: var(--pear-green) !important;
 }
 
-.logo span:first-child,
-.footer-brand span:first-child {
+/* ============================================
+   BORDEAUX ACCENT — MINIMAL & PRECISE
+   ============================================ */
+
+/* 1. Navbar Logo: 'p' ist bordeaux, wird hellbordeaux bei Hover */
+.logo .accent-p {
   color: var(--pear-bordeaux);
+  transition: var(--transition);
 }
-* 1. Logo 'p' bordeaux (wichtigster Punkt) */
-.logo span {
-  color: var(--pear-bordeaux) !important;
-}
-
-.footer-brand span {
-  color: var(--pear-bordeaux) !important;
-}
-
-/* 2. Navigation Hover-Linie (die 2px Linie unter Menu-Punkten) */
-.nav-links a::after {
-  background: var(--pear-bordeaux) !important;
-}
-
-/* 3. Stat-Nummern in About Section */
-.stat-item h3 {
-  color: var(--pear-bordeaux) !important;
-}
-
-/* 4. Artist Cards — Titel + City */
-.artist-card-info h3 {
-  color: var(--pear-bordeaux);
-}
-
-.artist-card-info p.city {
+.logo:hover .accent-p {
   color: var(--pear-bordeaux-light);
 }
 
-/* 5. Contact Icons */
-.contact-detail svg {
-  fill: var(--pear-bordeaux);
+/* 2. Footer Logo: 'p' ist bordeaux, wird hellbordeaux bei Hover */
+.footer-brand .accent-p {
+  color: var(--pear-bordeaux);
+  transition: var(--transition);
+}
+.footer-brand:hover .accent-p {
+  color: var(--pear-bordeaux-light);
 }
 
-.social-icon:hover svg {
-  fill: var(--pear-bordeaux) !important;
+/* 3. Nav-Links & Hover-Linie: Bordeaux bei Hover */
+.nav-links a:hover {
+  color: var(--pear-bordeaux);
+}
+.nav-links a::after {
+  background: var(--pear-bordeaux);
 }
 
-/* 6. Venue Note Border (die grüne vertikale Linie links bei "Hinweis:") */
-.venue-note {
-  border-left-color: var(--pear-bordeaux) !important;
+/* 4. Footer-Links: Bordeaux bei Hover */
+.footer-col a:hover {
+  color: var(--pear-bordeaux);
 }
 
-/* 7. Service/Venue Card Icons (Icon-Circle SVG) */
+/* 5. Normale Links auf der Seite: Bordeaux bei Hover */
+a:not(.btn):hover {
+  color: var(--pear-bordeaux);
+}
+
+/* 6. About Stat-Nummern: Bordeaux */
+.stat-item h3 {
+  color: var(--pear-bordeaux);
+}
+
+/* 7. Service/Venue Icons: Bordeaux */
 .icon-circle svg {
   fill: var(--pear-bordeaux);
-}
-
-/* 8. Legal Links (Impressum/Datenschutz) */
-.legal-content a {
-  color: var(--pear-bordeaux) !important;
-}
-
-/* 9. Alle generischen Links auf Seite */
-a:not(.btn) {
-  color: var(--pear-bordeaux);
-}
-
-a:not(.btn):hover {
-  color: var(--pear-bordeaux-light);
-}
-
-/* 10. Button Hover Shadow */
-.btn-primary:hover {
-  box-shadow: 0 0 12px rgba(139, 69, 87, 0.5);
 }
