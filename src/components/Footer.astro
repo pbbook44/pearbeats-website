@@ -7,9 +7,9 @@ const { texts } = Astro.props;
     <div class="footer-inner">
       <div class="footer-col">
         <div class="footer-brand">
-          <div class="logo-mark"></div>
-          Pear<span>beats</span>
-        </div>
+        <div class="logo-mark"></div>
+        <span style="color: var(--pear-bordeaux)">p</span>ear<span>beats</span>
+      </div>
         <p>{texts.footer.desc}</p>
       </div>
       <div class="footer-col">
@@ -18,7 +18,6 @@ const { texts } = Astro.props;
           <li><a href="/#about">{texts.nav.home}</a></li>
           <li><a href="/#artists">{texts.nav.artists}</a></li>
           <li><a href="/#services">{texts.nav.services}</a></li>
-          <li><a href="/#venues">{texts.nav.venues}</a></li>
         </ul>
       </div>
       <div class="footer-col">
@@ -30,12 +29,12 @@ const { texts } = Astro.props;
         </ul>
       </div>
       <div class="footer-col">
-        <h4>{texts.footer.legalHeader}</h4>
-        <ul>
-          <li><a href="#">Impressum</a></li>
-          <li><a href="#">Datenschutz</a></li>
-          <li><a href="#">AGB</a></li>
-        </ul>
+        <h4>{texts.footer?.legalHeader}</h4>
+          <ul>
+            <li><a href="/impressum">{texts.legal?.imprint}</a></li>
+            <li><a href="/datenschutz">{texts.legal?.privacy}</a></li>
+            <li><a href="/agb">{texts.legal?.terms}</a></li>
+          </ul>
       </div>
     </div>
     <div class="footer-bottom">

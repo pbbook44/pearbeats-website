@@ -28,54 +28,6 @@
   --transition: all 0.3s ease;
 }
 
-.logo span:first-child,
-.footer-brand span:first-child {
-  color: var(--pear-bordeaux);
-}
-
-/* Hyperlinks bordeaux */
-a {
-  color: var(--pear-bordeaux);
-}
-
-a:hover {
-  color: var(--pear-bordeaux-light);
-}
-
-/* Navigation Hover-Linie */
-.nav-links a::after {
-  background: var(--pear-bordeaux);
-}
-
-/* Stat-Nummern in About */
-.stat-item h3 {
-  color: var(--pear-bordeaux);
-}
-
-/* Contact Icons bordeaux bei Hover */
-.contact-detail svg {
-  fill: var(--pear-bordeaux);
-}
-
-.social-icon:hover svg {
-  fill: var(--pear-bordeaux);
-}
-
-/* Venue Note Border */
-.venue-note {
-  border-left-color: var(--pear-bordeaux);
-}
-
-/* Button Hover Shadow */
-.btn-primary:hover {
-  box-shadow: 0 0 8px rgba(139, 69, 87, 0.3);
-}
-
-/* Legal Links */
-.legal-content a {
-  color: var(--pear-bordeaux);
-}
-
 /* ========== 2. RESET & BASE ========== */
 * { margin: 0; padding: 0; box-sizing: border-box; }
 html { scroll-behavior: smooth; }
@@ -684,4 +636,69 @@ dialog::backdrop {
 .logo span:first-child,
 .footer-brand span:first-child {
   color: var(--pear-bordeaux);
+}
+* 1. Logo 'p' bordeaux (wichtigster Punkt) */
+.logo span {
+  color: var(--pear-bordeaux) !important;
+}
+
+.footer-brand span {
+  color: var(--pear-bordeaux) !important;
+}
+
+/* 2. Navigation Hover-Linie (die 2px Linie unter Menu-Punkten) */
+.nav-links a::after {
+  background: var(--pear-bordeaux) !important;
+}
+
+/* 3. Stat-Nummern in About Section */
+.stat-item h3 {
+  color: var(--pear-bordeaux) !important;
+}
+
+/* 4. Artist Cards — Titel + City */
+.artist-card-info h3 {
+  color: var(--pear-bordeaux);
+}
+
+.artist-card-info p.city {
+  color: var(--pear-bordeaux-light);
+}
+
+/* 5. Contact Icons */
+.contact-detail svg {
+  fill: var(--pear-bordeaux);
+}
+
+.social-icon:hover svg {
+  fill: var(--pear-bordeaux) !important;
+}
+
+/* 6. Venue Note Border (die grüne vertikale Linie links bei "Hinweis:") */
+.venue-note {
+  border-left-color: var(--pear-bordeaux) !important;
+}
+
+/* 7. Service/Venue Card Icons (Icon-Circle SVG) */
+.icon-circle svg {
+  fill: var(--pear-bordeaux);
+}
+
+/* 8. Legal Links (Impressum/Datenschutz) */
+.legal-content a {
+  color: var(--pear-bordeaux) !important;
+}
+
+/* 9. Alle generischen Links auf Seite */
+a:not(.btn) {
+  color: var(--pear-bordeaux);
+}
+
+a:not(.btn):hover {
+  color: var(--pear-bordeaux-light);
+}
+
+/* 10. Button Hover Shadow */
+.btn-primary:hover {
+  box-shadow: 0 0 12px rgba(139, 69, 87, 0.5);
 }
