@@ -174,12 +174,19 @@ section { padding: 100px 0; }
     border-color: var(--pear-green);
 }
 
+.artists {
+  background: var(--cream, #faf8f3);
+}
 .artist-card { cursor: pointer; }
 
 .service-card,
 .venue-benefit-card {
     padding: 40px 30px;
     text-align: left;
+}
+
+.services {
+  background: var(--white, #fff);
 }
 
 /* ========== 6. ICON COMPONENT ========== */
@@ -333,7 +340,7 @@ section { padding: 100px 0; }
     display: flex;
     align-items: center;
     position: relative;
-    background: var(--pear-green);
+     background: linear-gradient(135deg, var(--pear-green) 0%, var(--pear-dark) 100%);
     overflow: hidden;
     padding-top: 80px;
 }
@@ -513,6 +520,10 @@ section { padding: 100px 0; }
 /* ========== 12. VENUE BENEFITS ========== */
 .for-venues {
     background: var(--white);
+}
+
+.venues {
+  background: var(--cream, #faf8f3);
 }
 
 .venue-note {
@@ -1336,4 +1347,12 @@ footer {
 .social-icon svg {
   width: 18px;
   height: 18px;
+}
+
+.section-alt:nth-child(odd) {
+  background: var(--cream, #faf8f3);
+}
+
+.section-alt:nth-child(even) {
+  background: var(--white, #fff);
 }
