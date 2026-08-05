@@ -21,21 +21,7 @@ const { title, lang = 'de' } = Astro.props;
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 </head>
 <body>
-  <slot />
-  
-  <div id="bookingModal" class="modal hidden">
-    <div class="modal-content">
-      <span class="close-btn" onclick="closeBookingModal()">×</span>
-      <h2>{lang === 'de' ? 'Booking angefragt' : 'Booking Request'}</h2>
-      <p id="modalArtistName"></p>
-      <div id="modalButtons" style="display: flex; gap: 12px; margin-top: 20px;">
-        <a id="btnEpk" href="#" target="_blank" class="btn btn-primary">{lang === 'de' ? 'EPK ansehen' : 'View EPK'}</a>
-        <a id="btnBandcamp" href="#" target="_blank" class="btn btn-outline">{lang === 'de' ? 'Auf Bandcamp' : 'On Bandcamp'}</a>
-      </div>
-      <p style="margin-top: 20px; font-size: 0.9rem; color: var(--gray);">{lang === 'de' ? 'Deine Mail-App öffnet sich...' : 'Your mail app will open...'}</p>
-    </div>
-  </div>
-  
+  <slot />  
   <script>
     const currentLang = document.documentElement.lang;
     const langToggle = document.getElementById('langToggle');
@@ -46,22 +32,7 @@ const { title, lang = 'de' } = Astro.props;
     }
     
     let currentArtistData = null;
-    window.openBookingModal = function(element) {
-      const template = element.querySelector('.modal-data');
-      if (!template) return;
-      try {
-        currentArtistData = JSON.parse(template.textContent);
-        document.getElementById('modalArtistName').textContent = currentArtistData.ensemble;
-        document.getElementById('btnEpk').href = currentArtistData.epk || '#';
-        document.getElementById('btnBandcamp').href = currentArtistData.bandcamp || '#';
-        document.getElementById('bookingModal').classList.remove('hidden');
-      } catch (e) {
-        console.error('Error:', e);
-      }
-    };
-    window.closeBookingModal = function() {
-      document.getElementById('bookingModal').classList.add('hidden');
-    };
+    
     document.getElementById('bookingModal').addEventListener('click', (e) => {
       if (e.target.id === 'bookingModal') closeBookingModal();
     });
