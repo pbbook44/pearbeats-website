@@ -2,7 +2,7 @@ export const uiTexts = {
   de: {
     nav: { home: 'Start', artists: 'Artists', services: 'Leistungen', venues: 'Für Veranstalter', contact: 'Kontakt' },
     hero: { tagline: 'Creative Music · Contemporary · Festivals · Clubs', headline: 'Musik leben! Rhythmus buchen!', btnPrimary: 'Artist anfragen', btnOutline: 'Roster ansehen' },
-    about: { label: 'Über pearbeats', title: 'Booking mit Leidenschaft für Jazz & Contemporary', stats1: 'Künstler*innen im Roster', stats2: 'Gebuchte Shows pro Jahr', stats3: 'Veranstaltungen im Fokus' },
+    about: { label: 'Über pearbeats', title: 'Booking mit Leidenschaft für Creative Music', stats1: 'Künstler*innen im Roster', stats2: 'Gebuchte Shows pro Jahr', stats3: 'Veranstaltungen im Fokus' },
     artists: { label: 'Unser Roster', title: 'Featured Artists', subtitle: 'Eine Auswahl unserer Künstler*innen. Das vollständige Roster erhalten Sie auf Anfrage.' },
     services: {
       label: 'Leistungen',
@@ -77,7 +77,7 @@ export const uiTexts = {
   en: {
     nav: { home: 'Home', artists: 'Artists', services: 'Services', venues: 'For Venues', contact: 'Contact' },
     hero: { tagline: 'Creative Music · Contemporary · Festivals · Clubs', headline: 'Live the Music! Get into the Groove.', btnPrimary: 'Request Artist', btnOutline: 'View Roster' },
-    about: { label: 'About pearbeats', title: 'Booking with passion for Jazz & Contemporary', stats1: 'Artists in roster', stats2: 'Shows booked per year', stats3: 'Events focused' },
+    about: { label: 'About pearbeats', title: 'Booking with passion for Creative Music', stats1: 'Artists in roster', stats2: 'Shows booked per year', stats3: 'Events focused' },
     artists: { label: 'Our Roster', title: 'Featured Artists', subtitle: 'A selection of our artists. Full roster upon request.' },
     services: {
       label: 'Services',
