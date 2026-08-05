@@ -9,6 +9,8 @@
   --pear-light: #d4e89e;
   --pear-pale: #eff5d6;
   --pear-dark: #9aa820;
+  --pear-bordeaux: #8B4557; /* Bordeauxrot */
+  --pear-bordeaux-light: #B57B8C;
   --white: #fff;
   --charcoal: #1a1a2e;
   --color-text: #222;
@@ -24,6 +26,54 @@
   --shadow-sm: 0 2px 8px rgba(0,0,0,0.1);
   --shadow-lg: 0 20px 60px rgba(0,0,0,0.4);
   --transition: all 0.3s ease;
+}
+
+.logo span:first-child,
+.footer-brand span:first-child {
+  color: var(--pear-bordeaux);
+}
+
+/* Hyperlinks bordeaux */
+a {
+  color: var(--pear-bordeaux);
+}
+
+a:hover {
+  color: var(--pear-bordeaux-light);
+}
+
+/* Navigation Hover-Linie */
+.nav-links a::after {
+  background: var(--pear-bordeaux);
+}
+
+/* Stat-Nummern in About */
+.stat-item h3 {
+  color: var(--pear-bordeaux);
+}
+
+/* Contact Icons bordeaux bei Hover */
+.contact-detail svg {
+  fill: var(--pear-bordeaux);
+}
+
+.social-icon:hover svg {
+  fill: var(--pear-bordeaux);
+}
+
+/* Venue Note Border */
+.venue-note {
+  border-left-color: var(--pear-bordeaux);
+}
+
+/* Button Hover Shadow */
+.btn-primary:hover {
+  box-shadow: 0 0 8px rgba(139, 69, 87, 0.3);
+}
+
+/* Legal Links */
+.legal-content a {
+  color: var(--pear-bordeaux);
 }
 
 /* ========== 2. RESET & BASE ========== */
@@ -629,4 +679,9 @@ dialog::backdrop {
   background: var(--white) !important;
   border-color: var(--pear-green) !important;
   color: var(--pear-green) !important;
+}
+
+.logo span:first-child,
+.footer-brand span:first-child {
+  color: var(--pear-bordeaux);
 }
