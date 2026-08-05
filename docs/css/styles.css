@@ -422,3 +422,6 @@ dialog::backdrop {
   background: rgba(0, 0, 0, 0.55) !important;
   backdrop-filter: blur(4px);
 }
+
+/* Dialog: Inhalt nur sichtbar wenn geöffnet */
+dialog:not([open]) { display: none; }
