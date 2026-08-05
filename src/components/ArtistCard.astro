@@ -9,7 +9,7 @@ interface Props {
 }
 
 const { artist, texts, lang } = Astro.props;
-const modalId = `artist-modal-${artist.shortname}`;
+const safeName = artist.ensemble.replace(/'/g, "\\'").replace(/"/g, '\\"');
 const t = texts.modal ?? { epkLink: 'EPK', bandcampLink: 'Bandcamp', bookNow: 'Anfragen', close: 'Schließen' };
 
 function extractVideoId(url: string): string | null {
@@ -22,21 +22,20 @@ const videoId = artist.video ? extractVideoId(artist.video) : null;
 
 function normalizeBandcamp(url: string): string {
   if (!url) return '';
-  if (url.startsWith('http')) return url;
-  return `https://${url}`;
+  return url.startsWith('http') ? url : `https://${url}`;
 }
 
 const bandcampUrl = artist.bandcamp ? normalizeBandcamp(artist.bandcamp) : '';
 
-const hasValidPhoto = artist.photo_url
-  && (artist.photo_url.startsWith('/images/') || (artist.photo_url.startsWith('http') && !artist.photo_url.includes('drive.proton.me')));
+const hasValidPhoto = artist.photo_url && 
+  (artist.photo_url.startsWith('/images/') || (artist.photo_url.startsWith('http') && !artist.photo_url.includes('drive.proton.me')));
 ---
 
 <article class="artist-card" data-shortname={artist.shortname}>
   <button
     class="card-trigger"
     aria-label={`Details für ${artist.ensemble}`}
-    onclick={`document.getElementById('${modalId}').showModal()`}
+    onclick={`openArtistModal('${safeName}')`}
   >
     <div class="artist-card-image">
       <svg viewBox="0 0 80 80" role="img" aria-hidden="true">
@@ -44,7 +43,7 @@ const hasValidPhoto = artist.photo_url
         <path d="M12 70c0-16 12-26 28-26s28 10 28 26" />
       </svg>
       {hasValidPhoto && (
-        <img src={artist.photo_url} alt="" loading="lazy" />
+        <img src={artist.photo_url} alt="" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;color:transparent;font-size:0;" />
       )}
       {artist.genre && <span class="artist-badge">{artist.genre}</span>}
     </div>
@@ -56,7 +55,8 @@ const hasValidPhoto = artist.photo_url
   </button>
 </article>
 
-<dialog id={modalId} class="artist-detail-modal">
+<!-- Modal -->
+<dialog id="artist-modal-{artist.shortname}" class="artist-detail-modal">
   <form method="dialog">
     <button class="modal-close" aria-label={t.close}>&times;</button>
   </form>
@@ -92,13 +92,36 @@ const hasValidPhoto = artist.photo_url
       )}
       <button
         class="btn btn-primary"
-        onclick={`document.getElementById('${modalId}').close(); window.selectArtistForBooking('${artist.ensemble.replace(/'/g, "\\'")}');`}
+        onclick="bookThisArtist()"
       >
         {t.bookNow}
       </button>
     </div>
   </div>
 </dialog>
+
+<script>
+  // Global functions per Artist scoped
+  const modalId = 'artist-modal-{artist.shortname}';
+  
+  window.openArtistModal = function() {
+    const modal = document.getElementById(modalId);
+    if (modal) modal.showModal();
+  };
+
+  window.bookThisArtist = function() {
+    const modal = document.getElementById(modalId);
+    if (modal) {
+      modal.classList.add('closing');
+      modal.addEventListener('close', () => {
+        if (typeof selectArtistForBooking === 'function') {
+          selectArtistForBooking('{safeName}');
+        }
+      }, { once: true });
+      modal.close();
+    }
+  };
+</script>
 
 <style>
   .artist-card {
@@ -143,16 +166,6 @@ const hasValidPhoto = artist.photo_url
     opacity: 0.6;
   }
 
-  .artist-card-image img {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    color: transparent;
-    font-size: 0;
-  }
-
   .artist-badge {
     position: absolute;
     top: 16px;
@@ -191,13 +204,12 @@ const hasValidPhoto = artist.photo_url
     width: 90%;
     margin-left: auto;
     margin-right: auto;
-    top: 50%;
-    transform: translateY(-50%);
     padding: 0;
     box-shadow: var(--shadow-lg);
     background: var(--white);
     color: var(--charcoal);
     overflow: hidden;
+    animation: fadeIn 0.2s ease-out;
   }
 
   .artist-detail-modal::backdrop {
@@ -205,19 +217,9 @@ const hasValidPhoto = artist.photo_url
     backdrop-filter: blur(4px);
   }
 
-  .artist-detail-modal[open] {
-    animation: modalFadeIn 0.2s ease-out;
-  }
-
-  @keyframes modalFadeIn {
-    from {
-      opacity: 0;
-      transform: translateY(-50%) scale(0.95);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(-50%) scale(1);
-    }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
   }
 
   .modal-close {
