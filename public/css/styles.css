@@ -682,3 +682,21 @@ a:not(.btn):hover {
 .icon-circle svg {
   fill: var(--pear-bordeaux);
 }
+
+/* Formspree Success Message */
+.form-success {
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.form-success h3 {
+  color: var(--pear-green);
+  font-size: 1.5rem;
+  margin-bottom: 16px;
+}
+
+.form-success p {
+  color: var(--gray);
+  font-size: 1rem;
+  line-height: 1.6;
+}

@@ -53,7 +53,7 @@ const artists = await loadArtists();
       </div>
 
       <div class="contact-form-wrapper">
-        <form class="contact-form" id="main-contact-form">
+        <form class="contact-form" id="main-contact-form" action="https://formspree.io/f/xljrepvk" method="POST">
           
           <!-- Anfragetyp-Auswahl -->
           <div class="form-group">
@@ -141,7 +141,6 @@ const artists = await loadArtists();
     var submitBtn = document.querySelector('.form-submit');
     
     if (!select) return;
-    
     var val = select.value;
     
     if (val === '2') {
@@ -168,9 +167,38 @@ const artists = await loadArtists();
     if (mainForm) {
       mainForm.addEventListener('submit', function(e) {
         e.preventDefault();
-        alert('Anfrage wird gesendet... (API noch nicht verbunden)');
-        mainForm.reset();
-        handleTypeChange();
+        
+        var submitBtn = mainForm.querySelector('.form-submit');
+        var originalText = submitBtn.textContent;
+        submitBtn.textContent = 'Wird gesendet...';
+        submitBtn.disabled = true;
+        
+        fetch(mainForm.action, {
+          method: 'POST',
+          body: new FormData(mainForm),
+          headers: { 'Accept': 'application/json' }
+        })
+        .then(function(response) {
+          if (response.ok) {
+            mainForm.reset();
+            mainForm.style.display = 'none';
+            
+            var wrapper = document.querySelector('.contact-form-wrapper');
+            if (wrapper) {
+              var successMsg = document.createElement('div');
+              successMsg.className = 'form-success';
+              successMsg.innerHTML = '<h3>✓ Danke!</h3><p>Ihre Anfrage wurde erfolgreich gesendet. Wir melden uns innerhalb von 48 Stunden.</p><button type="button" class="btn btn-secondary" onclick="location.reload()" style="margin-top:20px;">Neue Anfrage</button>';
+              wrapper.appendChild(successMsg);
+            }
+          } else {
+            throw new Error('Network response was not ok');
+          }
+        })
+        .catch(function(error) {
+          alert('Es gab einen Fehler beim Senden. Bitte versuchen Sie es erneut oder schreiben Sie direkt an booking@pearbeats.de');
+          submitBtn.textContent = originalText;
+          submitBtn.disabled = false;
+        });
       });
     }
   });
@@ -205,14 +233,4 @@ const artists = await loadArtists();
       }
     }, 300);
   };
-  // Force-close all modals on page load
-  document.addEventListener('DOMContentLoaded', function() {
-    var allDialogs = document.querySelectorAll('dialog');
-    allDialogs.forEach(function(d) {
-      if (d.hasAttribute('open')) {
-        d.removeAttribute('open');
-      }
-      try { d.close(); } catch(e) {}
-    });
-  });
 </script>
