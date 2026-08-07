@@ -241,6 +241,41 @@ h2, h3, .section-title {
 }
 
 /* ========== 10. RESPONSIVE ========== */
+* ============================================
+   MOBILE ABOUT GRID FIX
+   ============================================ */
+
+@media (max-width: 768px) {
+  /* About Section: 1 Spalte statt 2 */
+  .about-grid {
+    grid-template-columns: 1fr !important;
+    gap: 40px;
+  }
+
+  /* About Visual: volle Breite */
+  .about-visual {
+    width: 100%;
+  }
+
+  .about-visual-card {
+    padding: 40px 20px;
+  }
+
+  /* Stats: kleiner machen */
+  .about-stats {
+    gap: 20px;
+  }
+
+  .stat-item h3 {
+    font-size: 2rem;
+  }
+
+   .container {
+    padding: 0 16px;
+    max-width: 100%;
+  }
+}
+
 @media (max-width: 900px) {
   .navbar { position: relative; }
   .nav-links { display: none; flex-direction: column; width: 100%; background: var(--white); padding: 24px 0; }
@@ -700,3 +735,4 @@ a:not(.btn):hover {
   font-size: 1rem;
   line-height: 1.6;
 }
+
