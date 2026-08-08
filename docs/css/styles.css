@@ -207,7 +207,7 @@ a:not(.btn):hover { color: var(--pear-bordeaux); }
 
 /* ========== 17. RESPONSIVE ========== */
 @media (max-width: 900px) {
-  .navbar { position: relative; }
+  .navbar { position: sticky; top:0; }
   .nav-links { display: none; flex-direction: column; width: 100%; background: var(--white); padding: 24px 0; }
   .nav-links.active { display: flex; }
   .nav-links a { padding: 12px 24px; width: 100%; }
