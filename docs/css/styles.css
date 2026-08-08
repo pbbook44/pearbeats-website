@@ -129,6 +129,8 @@ dialog::backdrop { background: rgba(0,0,0,0.55) !important; backdrop-filter: blu
 .modal-links { display: flex; gap: 12px; flex-wrap: wrap; }
 .modal-links .btn-primary { background: var(--pear-green); color: var(--white); border: 2px solid var(--pear-green); }
 .modal-links .btn-primary:hover { background: transparent; color: var(--pear-green); }
+.modal-image { width: 100%; margin-bottom: 20px; border-radius: 12px; overflow: hidden; }
+.modal-image img { width: 100%; height: auto; max-height: 400px; object-fit: cover; display: block;}
 
 /* ========== 12. NAVIGATION ========== */
 .navbar { position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; background: rgba(255,255,255,0.95); backdrop-filter: blur(12px); border-bottom: 1px solid var(--gray-light); }
